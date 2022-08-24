@@ -11,12 +11,12 @@
 
     <modules>
 <!--        <module>myscheduler-common</module>-->
-        <module>myscheduler-assmbly</module>
 <!--        <module>myscheduler-executor</module>-->
         <module>myscheduler-master</module>
         <module>myscheduler-executor</module>
         <module>myscheduler-common</module>
-        <module>myscheduler-service</module>
+        <module>myscheduler-api</module>
+        <module>myscheduler-dao</module>
     </modules>
     <name>myscheduler</name>
     <description>a bigdata scheduler</description>
