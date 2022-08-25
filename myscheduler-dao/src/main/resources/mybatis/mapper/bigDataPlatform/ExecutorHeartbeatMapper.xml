@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutorHeartbeatMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutorHeartbeatEntity">
+        <result column="executorName" property="executorName" jdbcType="VARCHAR" />
+        <result column="heartBeatTime" property="heartBeatTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executorName,heartBeatTime
+    </sql>
+    <select id="selectExecutorHeartbeatById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutorHeartbeat 
+        where executorName = #{executorName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectExecutorHeartbeatCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutorHeartbeat 
+        where 1=1
+        <if test="executorName != null  and executorName != ''">
+        and executorName=#{executorName,jdbcType=VARCHAR}
+        </if>
+        <if test="heartBeatTime != null ">
+        and heartBeatTime=#{heartBeatTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+    <select id="selectExecutorHeartbeatList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutorHeartbeat 
+        where 1=1
+        <if test="executorName != null  and executorName != ''">
+        and executorName=#{executorName,jdbcType=VARCHAR}
+        </if>
+        <if test="heartBeatTime != null ">
+        and heartBeatTime=#{heartBeatTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY executorName
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="upsertExecutorHeartbeat" parameterType="java.lang.String">
+        insert into ExecutorHeartbeat (executorName,heartBeatTime)
+        values(#{executorName,jdbcType=VARCHAR}, now())
+            ON DUPLICATE KEY UPDATE
+            executorName = #{executorName,jdbcType=VARCHAR}, heartBeatTime = now()
+    </insert>
+</mapper>

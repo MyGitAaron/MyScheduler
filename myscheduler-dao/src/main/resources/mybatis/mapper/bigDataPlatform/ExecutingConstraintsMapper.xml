@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutingConstraintsMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutingConstraintsEntity">
+        <id column="executingConstraintsId" property="executingConstraintsId" jdbcType="INTEGER" />
+        <result column="executingJobsId" property="executingJobsId" jdbcType="INTEGER" />
+        <result column="depType" property="depType" jdbcType="INTEGER" />
+        <result column="depJob" property="depJob" jdbcType="VARCHAR" />
+        <result column="depJobPeriod" property="depJobPeriod" jdbcType="VARCHAR" />
+        <result column="depTime" property="depTime" jdbcType="TIMESTAMP" />
+        <result column="isDeleted" property="isDeleted" jdbcType="CHAR" />
+        <result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+        <result column="inputBy" property="inputBy" jdbcType="VARCHAR" />
+        <result column="stampDate" property="stampDate" jdbcType="TIMESTAMP" />
+        <result column="modifiedBy" property="modifiedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executingConstraintsId,executingJobsId,depType,depJob,depJobPeriod,depTime,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+    </sql>
+    <select id="selectExecutingConstraintsById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingConstraints 
+        where executingConstraintsId = #{executingConstraintsId,jdbcType=INTEGER} and isDeleted = '0'
+    </select>
+    <select id="selectExecutingConstraintsCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutingConstraints 
+        where isDeleted='0'
+        <if test="executingConstraintsId != null ">
+        and executingConstraintsId=#{executingConstraintsId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="depType != null">
+        and depType=#{depType,jdbcType=INTEGER}
+        </if>
+        <if test="depJob != null  and depJob != ''">
+        and depJob=#{depJob,jdbcType=VARCHAR}
+        </if>
+        <if test="depJobPeriod != null  and depJobPeriod != ''">
+        and depJobPeriod=#{depJobPeriod,jdbcType=VARCHAR}
+        </if>
+        <if test="depTime != null ">
+        and depTime=#{depTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectExecutingConstraintsList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingConstraints 
+        where isDeleted='0'
+        <if test="executingConstraintsId != null ">
+        and executingConstraintsId=#{executingConstraintsId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="depType != null">
+        and depType=#{depType,jdbcType=INTEGER}
+        </if>
+        <if test="depJob != null  and depJob != ''">
+        and depJob=#{depJob,jdbcType=VARCHAR}
+        </if>
+        <if test="depJobPeriod != null  and depJobPeriod != ''">
+        and depJobPeriod=#{depJobPeriod,jdbcType=VARCHAR}
+        </if>
+        <if test="depTime != null ">
+        and depTime=#{depTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+        ORDER BY executingConstraintsId
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="insertExecutingConstraints" parameterType="org.my.myscheduler.dao.entity.ExecutingConstraintsEntity" useGeneratedKeys="true" keyProperty="executingConstraintsId">
+        insert into ExecutingConstraints (executingJobsId,depType,depJob,depJobPeriod,depTime,isDeleted,inputDate,inputBy,stampDate,modifiedBy) values(#{executingJobsId,jdbcType=INTEGER},#{depType,jdbcType=INTEGER},#{depJob,jdbcType=VARCHAR},#{depJobPeriod,jdbcType=VARCHAR},#{depTime,jdbcType=TIMESTAMP},'0',now(),#{inputBy,jdbcType=VARCHAR},now(),#{modifiedBy,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateExecutingConstraints" parameterType="org.my.myscheduler.dao.entity.ExecutingConstraintsEntity" >
+        update ExecutingConstraints
+        <set>
+            <if test="executingJobsId != null" >
+                executingJobsId = #{executingJobsId, jdbcType=INTEGER},
+            </if>
+            <if test="depType != null" >
+                depType = #{depType, jdbcType=INTEGER},
+            </if>
+            <if test="depJob != null" >
+                depJob = #{depJob, jdbcType=VARCHAR},
+            </if>
+            <if test="depJobPeriod != null" >
+                depJobPeriod = #{depJobPeriod, jdbcType=VARCHAR},
+            </if>
+            <if test="depTime != null" >
+                depTime = #{depTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null" >
+                isDeleted = #{isDeleted, jdbcType=CHAR},
+            </if>
+            <if test="modifiedBy != null" >
+                modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            </if>
+            stampDate = now()
+        </set>
+        where executingConstraintsId = #{executingConstraintsId,jdbcType=INTEGER}
+    </update>
+    <update id="deleteExecutingConstraintsById" parameterType="java.lang.Long" >
+        update ExecutingConstraints
+        <set>
+            isDeleted = '1'
+        </set>
+        where executingConstraintsId = #{executingConstraintsId,jdbcType=INTEGER}
+    </update>
+    <insert id="initExecutingConstraints">
+        INSERT INTO ExecutingConstraints(executingJobsId, depType, depJob, depJobPeriod, depTime, isDeleted, inputDate, inputBy, stampDate, modifiedBy)
+        SELECT
+        ej.executingJobsId,
+        0 as depType,
+        jd.depJobName as depJob,
+        ej.executingPeriod as depJobPeriod,
+        null as depTime,
+        '0' as isDeleted,
+        now() as inputDate,
+        'admin' as inputBy,
+        now() as stampDate,
+        'admin' as modifiedBy
+         FROM ExecutingJobs ej INNER JOIN
+        JobDependencyDDP jd on ej.jobName = jd.jobName
+        LEFT OUTER JOIN ExecutingConstraints ec
+            ON ec.executingJobsId = ej.executingJobsId
+             AND ec.depType = 0
+             AND ec.depJob = jd.depJobName
+             AND ec.depJobPeriod = ej.executingPeriod
+             AND ec.isDeleted = '0'
+        WHERE ej.isDeleted = '0' and jd.isDeleted = '0'
+         and jd.depType in ('0', '3','4') AND ej.executingType = 0
+         AND ej.executingPeriod >= DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+		 and ec.executingConstraintsId is null
+        union all
+        select
+        ej.executingJobsId,
+        1 as depType,
+        null as depJob,
+        null as depJobPeriod,
+        CASE WHEN j.period = 'T' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+            INTERVAL TIMESTAMPDIFF(SECOND, DATE_ADD(DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+                    INTERVAL FLOOR(MINUTE(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) / 10) * 10 MINUTE),
+            IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        WHEN j.period = 'H' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+            INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+            IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        ELSE DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+            INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d 00:00:00'),
+            IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND) END
+         as depTime,
+        '0' as isDeleted,
+        now() as inputDate,
+        'admin' as inputBy,
+        now() as stampDate,
+        'admin' as modifiedBy
+        from ExecutingJobs ej inner join Jobs j on ej.jobName = j.jobName
+        LEFT OUTER JOIN ExecutingConstraints ec
+            ON ec.executingJobsId = ej.executingJobsId
+             AND ec.depTime = CASE WHEN j.period = 'T' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+                                    INTERVAL TIMESTAMPDIFF(SECOND, DATE_ADD(DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+                                            INTERVAL FLOOR(MINUTE(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) / 10) * 10 MINUTE),
+                                    IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+                                WHEN j.period = 'H' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+                                    INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+                                    IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+                                ELSE DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+                                    INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d 00:00:00'),
+                                    IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND) END
+             AND ec.depType = 1
+             AND ec.isDeleted = '0'
+        where j.isDeleted = '0' and ej.isDeleted = '0' AND ej.executingType = 0
+         AND ej.executingPeriod >= DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+		 and ec.executingConstraintsId is null
+        union ALL
+        select
+        ej.executingJobsId,
+        2 as depType,
+        ej.jobName as depJob,
+        CASE WHEN j.period = 'T' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -10 MINUTE), '%Y%m%d%H%i')
+          WHEN j.period = 'H' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 HOUR), '%Y%m%d%H%i')
+          WHEN j.period = 'D' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 DAY), '%Y%m%d%H%i')
+          WHEN j.period = 'W' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -7 DAY), '%Y%m%d%H%i')
+          WHEN j.period = 'M' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 MONTH), '%Y%m%d%H%i')
+          ELSE DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 YEAR), '%Y%m%d%H%i') END as depJobPeriod,
+        null as depTime,
+        '0' as isDeleted,
+        now() as inputDate,
+        'admin' as inputBy,
+        now() as stampDate,
+        'admin' as modifiedBy
+        from ExecutingJobs ej inner join Jobs j on ej.jobName = j.jobName
+        LEFT OUTER JOIN ExecutingConstraints ec
+            ON ec.executingJobsId = ej.executingJobsId
+             AND ec.depType = 2
+             AND ec.depJob = ej.jobName
+             AND ec.depJobPeriod = CASE WHEN j.period = 'T' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -10 MINUTE), '%Y%m%d%H%i')
+                              WHEN j.period = 'H' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 HOUR), '%Y%m%d%H%i')
+                              WHEN j.period = 'D' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 DAY), '%Y%m%d%H%i')
+                              WHEN j.period = 'W' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -7 DAY), '%Y%m%d%H%i')
+                              WHEN j.period = 'M' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 MONTH), '%Y%m%d%H%i')
+                              ELSE DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 YEAR), '%Y%m%d%H%i') END
+             AND ec.isDeleted = '0'
+        WHERE j.isDeleted = '0' and ej.isDeleted = '0' and j.relyType = '1' AND ej.executingType = 0
+         AND ej.executingPeriod >= DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+		 and ec.executingConstraintsId is null
+    </insert>
+    <insert id="initConstraintsByExecutingJobsId" parameterType="java.util.Map">
+        INSERT INTO ExecutingConstraints(executingJobsId, depType, depJob, depJobPeriod, depTime, isDeleted, inputDate, inputBy, stampDate, modifiedBy)
+        SELECT
+        ej.executingJobsId,
+        0 as depType,
+        jd.depJobName as depJob,
+        ej.executingPeriod as depJobPeriod,
+        null as depTime,
+        '0' as isDeleted,
+        now() as inputDate,
+        #{inputBy, jdbcType=VARCHAR} as inputBy,
+        now() as stampDate,
+        #{modifiedBy, jdbcType=VARCHAR} as modifiedBy
+        FROM ExecutingJobs ej INNER JOIN
+        JobDependencyDDP jd on ej.jobName = jd.jobName
+        LEFT OUTER JOIN ExecutingConstraints ec
+        ON ec.executingJobsId = ej.executingJobsId
+        AND ec.depType = 0
+        AND ec.depJob = jd.depJobName
+        AND ec.depJobPeriod = ej.executingPeriod
+        AND ec.isDeleted = '0'
+        WHERE ej.isDeleted = '0' and jd.isDeleted = '0'
+        and jd.depType in ('0', '3','4')
+        and ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+        and ec.executingConstraintsId is null
+        union all
+        select
+        ej.executingJobsId,
+        1 as depType,
+        null as depJob,
+        null as depJobPeriod,
+        CASE WHEN j.period = 'T' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_ADD(DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+        INTERVAL FLOOR(MINUTE(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) / 10) * 10 MINUTE),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        WHEN j.period = 'H' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        ELSE DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d 00:00:00'),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND) END
+        as depTime,
+        '0' as isDeleted,
+        now() as inputDate,
+        #{inputBy, jdbcType=VARCHAR} as inputBy,
+        now() as stampDate,
+        #{modifiedBy, jdbcType=VARCHAR} as modifiedBy
+        from ExecutingJobs ej inner join Jobs j on ej.jobName = j.jobName
+        LEFT OUTER JOIN ExecutingConstraints ec
+        ON ec.executingJobsId = ej.executingJobsId
+        AND ec.depTime = CASE WHEN j.period = 'T' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_ADD(DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+        INTERVAL FLOOR(MINUTE(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) / 10) * 10 MINUTE),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        WHEN j.period = 'H' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        ELSE DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d 00:00:00'),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND) END
+        AND ec.depType = 1
+        AND ec.isDeleted = '0'
+        where j.isDeleted = '0' and ej.isDeleted = '0'
+        and ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+        and ec.executingConstraintsId is null
+        union ALL
+        select
+        ej.executingJobsId,
+        2 as depType,
+        ej.jobName as depJob,
+        CASE WHEN j.period = 'T' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -10 MINUTE), '%Y%m%d%H%i')
+        WHEN j.period = 'H' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 HOUR), '%Y%m%d%H%i')
+        WHEN j.period = 'D' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 DAY), '%Y%m%d%H%i')
+        WHEN j.period = 'W' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -7 DAY), '%Y%m%d%H%i')
+        WHEN j.period = 'M' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 MONTH), '%Y%m%d%H%i')
+        ELSE DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 YEAR), '%Y%m%d%H%i') END as depJobPeriod,
+        null as depTime,
+        '0' as isDeleted,
+        now() as inputDate,
+        #{inputBy, jdbcType=VARCHAR} as inputBy,
+        now() as stampDate,
+        #{modifiedBy, jdbcType=VARCHAR} as modifiedBy
+        from ExecutingJobs ej inner join Jobs j on ej.jobName = j.jobName
+        LEFT OUTER JOIN ExecutingConstraints ec
+        ON ec.executingJobsId = ej.executingJobsId
+        AND ec.depType = 2
+        AND ec.depJob = ej.jobName
+        AND ec.depJobPeriod = CASE WHEN j.period = 'T' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -10 MINUTE), '%Y%m%d%H%i')
+        WHEN j.period = 'H' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 HOUR), '%Y%m%d%H%i')
+        WHEN j.period = 'D' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 DAY), '%Y%m%d%H%i')
+        WHEN j.period = 'W' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -7 DAY), '%Y%m%d%H%i')
+        WHEN j.period = 'M' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 MONTH), '%Y%m%d%H%i')
+        ELSE DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 YEAR), '%Y%m%d%H%i') END
+        AND ec.isDeleted = '0'
+        WHERE j.isDeleted = '0' and ej.isDeleted = '0' and j.relyType = '1'
+        and ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+        and ec.executingConstraintsId is null
+    </insert>
+    <update id="deleteConstraintsByExecutingJobsId0" parameterType="java.util.Map">
+        UPDATE ExecutingConstraints ec
+        INNER JOIN ExecutingJobs ej ON ec.executingJobsId = ej.executingJobsId
+        LEFT OUTER JOIN JobDependencyDDP jd
+        ON ej.jobName = jd.jobName AND ec.depJob = jd.depJobName AND jd.isDeleted = '0' AND jd.depType in ('0', '3','4')
+        <set>
+            ec.isDeleted = '1',
+            ec.modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            ec.stampDate = now()
+        </set>
+        WHERE ec.depType = 0
+        AND ec.depJobPeriod = ej.executingPeriod
+        AND ec.isDeleted = '0'
+        AND ej.isDeleted = '0'
+        AND ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+        AND jd.jobDependencyId IS NULL
+    </update>
+    <update id="deleteConstraintsByExecutingJobsId1" parameterType="java.util.Map">
+        UPDATE ExecutingConstraints ec
+        INNER JOIN ExecutingJobs ej ON ec.executingJobsId = ej.executingJobsId
+        LEFT OUTER JOIN Jobs j on ej.jobName = j.jobName
+        AND j.isDeleted = '0'
+        AND ec.depTime = CASE WHEN j.period = 'T' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_ADD(DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+        INTERVAL FLOOR(MINUTE(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) / 10) * 10 MINUTE),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        WHEN j.period = 'H' THEN DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d %H:00:00'),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND)
+        ELSE DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL TIMESTAMPDIFF(SECOND, DATE_FORMAT(IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i')),'%Y-%m-%d 00:00:00'),
+        IFNULL(j.startDate, STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'))) SECOND) END
+        <set>
+            ec.isDeleted = '1',
+            ec.modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            ec.stampDate = now()
+        </set>
+        WHERE ec.depType = 1
+        AND ec.isDeleted = '0'
+        AND ej.isDeleted = '0'
+        and ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+    </update>
+    <update id="deleteConstraintsByExecutingJobsId2" parameterType="java.util.Map">
+        UPDATE ExecutingConstraints ec
+        INNER JOIN ExecutingJobs ej ON ec.executingJobsId = ej.executingJobsId
+        AND ec.depJob = ej.jobName
+        LEFT OUTER JOIN Jobs j on ej.jobName = j.jobName
+        AND j.isDeleted = '0'
+        AND ec.depJobPeriod = CASE WHEN j.period = 'T' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -10 MINUTE), '%Y%m%d%H%i')
+        WHEN j.period = 'H' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 HOUR), '%Y%m%d%H%i')
+        WHEN j.period = 'D' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 DAY), '%Y%m%d%H%i')
+        WHEN j.period = 'W' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -7 DAY), '%Y%m%d%H%i')
+        WHEN j.period = 'M' THEN DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 MONTH), '%Y%m%d%H%i')
+        ELSE DATE_FORMAT(DATE_ADD(STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'), INTERVAL -1 YEAR), '%Y%m%d%H%i') END
+        AND j.relyType = '1'
+        <set>
+            ec.isDeleted = '1',
+            ec.modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            ec.stampDate = now()
+        </set>
+        WHERE ec.depType = 2
+        AND ec.isDeleted = '0'
+        AND ej.isDeleted = '0'
+        AND ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+    </update>
+</mapper>

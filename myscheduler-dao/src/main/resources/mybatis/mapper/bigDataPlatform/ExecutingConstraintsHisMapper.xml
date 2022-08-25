@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutingConstraintsHisMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutingConstraintsHisEntity">
+        <id column="executingConstraintsHisId" property="executingConstraintsHisId" jdbcType="INTEGER" />
+        <result column="executingJobsHisId" property="executingJobsHisId" jdbcType="INTEGER" />
+        <result column="executingConstraintsId" property="executingConstraintsId" jdbcType="INTEGER" />
+        <result column="executingJobsId" property="executingJobsId" jdbcType="INTEGER" />
+        <result column="depType" property="depType" jdbcType="INTEGER" />
+        <result column="depJob" property="depJob" jdbcType="VARCHAR" />
+        <result column="depJobPeriod" property="depJobPeriod" jdbcType="VARCHAR" />
+        <result column="depTime" property="depTime" jdbcType="TIMESTAMP" />
+        <result column="isDeleted" property="isDeleted" jdbcType="CHAR" />
+        <result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+        <result column="inputBy" property="inputBy" jdbcType="VARCHAR" />
+        <result column="stampDate" property="stampDate" jdbcType="TIMESTAMP" />
+        <result column="modifiedBy" property="modifiedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executingConstraintsHisId,executingJobsHisId,executingConstraintsId,executingJobsId,depType,depJob,depJobPeriod,depTime,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+    </sql>
+    <select id="selectExecutingConstraintsHisById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingConstraintsHis 
+        where executingConstraintsHisId = #{executingConstraintsHisId,jdbcType=INTEGER} and isDeleted = '0'
+    </select>
+    <select id="selectExecutingConstraintsHisCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutingConstraintsHis 
+        where isDeleted='0'
+        <if test="executingConstraintsHisId != null ">
+        and executingConstraintsHisId=#{executingConstraintsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsHisId != null ">
+        and executingJobsHisId=#{executingJobsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingConstraintsId != null ">
+        and executingConstraintsId=#{executingConstraintsId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="depType != null ">
+        and depType=#{depType,jdbcType=INTEGER}
+        </if>
+        <if test="depJob != null  and depJob != ''">
+        and depJob=#{depJob,jdbcType=VARCHAR}
+        </if>
+        <if test="depJobPeriod != null  and depJobPeriod != ''">
+        and depJobPeriod=#{depJobPeriod,jdbcType=VARCHAR}
+        </if>
+        <if test="depTime != null ">
+        and depTime=#{depTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectExecutingConstraintsHisList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingConstraintsHis 
+        where isDeleted='0'
+        <if test="executingConstraintsHisId != null ">
+        and executingConstraintsHisId=#{executingConstraintsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsHisId != null ">
+        and executingJobsHisId=#{executingJobsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingConstraintsId != null ">
+        and executingConstraintsId=#{executingConstraintsId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="depType != null ">
+        and depType=#{depType,jdbcType=INTEGER}
+        </if>
+        <if test="depJob != null  and depJob != ''">
+        and depJob=#{depJob,jdbcType=VARCHAR}
+        </if>
+        <if test="depJobPeriod != null  and depJobPeriod != ''">
+        and depJobPeriod=#{depJobPeriod,jdbcType=VARCHAR}
+        </if>
+        <if test="depTime != null ">
+        and depTime=#{depTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+        ORDER BY executingConstraintsHisId
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="insertExecutingConstraintsHis" parameterType="org.my.myscheduler.dao.entity.ExecutingConstraintsHisEntity" useGeneratedKeys="true" keyProperty="executingConstraintsHisId">
+        insert into ExecutingConstraintsHis (executingJobsHisId,executingConstraintsId,executingJobsId,depType,depJob,depJobPeriod,depTime,isDeleted,inputDate,inputBy,stampDate,modifiedBy) values(#{executingJobsHisId,jdbcType=INTEGER},#{executingConstraintsId,jdbcType=INTEGER},#{executingJobsId,jdbcType=INTEGER},#{depType,jdbcType=INTEGER},#{depJob,jdbcType=VARCHAR},#{depJobPeriod,jdbcType=VARCHAR},#{depTime,jdbcType=TIMESTAMP},'0',now(),#{inputBy,jdbcType=VARCHAR},now(),#{modifiedBy,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateExecutingConstraintsHis" parameterType="org.my.myscheduler.dao.entity.ExecutingConstraintsHisEntity" >
+        update ExecutingConstraintsHis
+        <set>
+            <if test="executingJobsHisId != null" >
+                executingJobsHisId = #{executingJobsHisId, jdbcType=INTEGER},
+            </if>
+            <if test="executingConstraintsId != null" >
+                executingConstraintsId = #{executingConstraintsId, jdbcType=INTEGER},
+            </if>
+            <if test="executingJobsId != null" >
+                executingJobsId = #{executingJobsId, jdbcType=INTEGER},
+            </if>
+            <if test="depType != null" >
+                depType = #{depType, jdbcType=INTEGER},
+            </if>
+            <if test="depJob != null" >
+                depJob = #{depJob, jdbcType=VARCHAR},
+            </if>
+            <if test="depJobPeriod != null" >
+                depJobPeriod = #{depJobPeriod, jdbcType=VARCHAR},
+            </if>
+            <if test="depTime != null" >
+                depTime = #{depTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null" >
+                isDeleted = #{isDeleted, jdbcType=CHAR},
+            </if>
+            <if test="modifiedBy != null" >
+                modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            </if>
+            stampDate = now()
+        </set>
+        where executingConstraintsHisId = #{executingConstraintsHisId,jdbcType=INTEGER}
+    </update>
+    <update id="deleteExecutingConstraintsHisById" parameterType="java.lang.Long" >
+        update ExecutingConstraintsHis
+        <set>
+            isDeleted = '1'
+        </set>
+        where executingConstraintsHisId = #{executingConstraintsHisId,jdbcType=INTEGER}
+    </update>
+    <insert id="copyExecutingConstraintsToHis" parameterType="java.util.Map">
+        insert into ExecutingConstraintsHis (executingJobsHisId,executingConstraintsId,executingJobsId,depType,depJob,depJobPeriod,depTime,isDeleted,inputDate,inputBy,stampDate,modifiedBy)
+        SELECT #{executingJobsHisId,jdbcType=INTEGER}, executingConstraintsId,executingJobsId,depType,depJob,depJobPeriod,depTime,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+        FROM ExecutingConstraints WHERE executingJobsId = #{executingJobsId,jdbcType=INTEGER} and isDeleted = '0'
+    </insert>
+</mapper>

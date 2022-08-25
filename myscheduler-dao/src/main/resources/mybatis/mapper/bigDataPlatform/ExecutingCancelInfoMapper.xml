@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutingCancelInfoMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutingCancelInfoEntity">
+        <id column="executingCancelInfoId" property="executingCancelInfoId" jdbcType="INTEGER" />
+        <result column="executingJobsId" property="executingJobsId" jdbcType="INTEGER" />
+        <result column="executorName" property="executorName" jdbcType="VARCHAR" />
+        <result column="processId" property="processId" jdbcType="INTEGER" />
+        <result column="cancelStatus" property="cancelStatus" jdbcType="INTEGER" />
+        <result column="isDeleted" property="isDeleted" jdbcType="CHAR" />
+        <result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+        <result column="inputBy" property="inputBy" jdbcType="VARCHAR" />
+        <result column="stampDate" property="stampDate" jdbcType="TIMESTAMP" />
+        <result column="modifiedBy" property="modifiedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executingCancelInfoId,executingJobsId,executorName,processId,cancelStatus,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+    </sql>
+    <select id="selectExecutingCancelInfoById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingCancelInfo 
+        where executingCancelInfoId = #{executingCancelInfoId,jdbcType=INTEGER} and isDeleted = '0'
+    </select>
+    <select id="selectExecutingCancelInfoCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutingCancelInfo 
+        where isDeleted='0'
+        <if test="executingCancelInfoId != null ">
+        and executingCancelInfoId=#{executingCancelInfoId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="executorName != null  and executorName != ''">
+        and executorName=#{executorName,jdbcType=VARCHAR}
+        </if>
+        <if test="processId != null ">
+        and processId=#{processId,jdbcType=INTEGER}
+        </if>
+        <if test="cancelStatus != null ">
+        and cancelStatus=#{cancelStatus,jdbcType=INTEGER}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectExecutingCancelInfoList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingCancelInfo 
+        where isDeleted='0'
+        <if test="executingCancelInfoId != null ">
+        and executingCancelInfoId=#{executingCancelInfoId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="executorName != null  and executorName != ''">
+        and executorName=#{executorName,jdbcType=VARCHAR}
+        </if>
+        <if test="processId != null ">
+        and processId=#{processId,jdbcType=INTEGER}
+        </if>
+        <if test="cancelStatus != null ">
+        and cancelStatus=#{cancelStatus,jdbcType=INTEGER}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+        ORDER BY executingCancelInfoId
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="insertExecutingCancelInfo" parameterType="org.my.myscheduler.dao.entity.ExecutingCancelInfoEntity" useGeneratedKeys="true" keyProperty="executingCancelInfoId">
+        insert into ExecutingCancelInfo (executingJobsId,executorName,processId,cancelStatus,isDeleted,inputDate,inputBy,stampDate,modifiedBy) values(#{executingJobsId,jdbcType=INTEGER},#{executorName,jdbcType=VARCHAR},#{processId,jdbcType=INTEGER},#{cancelStatus,jdbcType=INTEGER},'0',now(),#{inputBy,jdbcType=VARCHAR},now(),#{modifiedBy,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateExecutingCancelInfo" parameterType="org.my.myscheduler.dao.entity.ExecutingCancelInfoEntity" >
+        update ExecutingCancelInfo
+        <set>
+            <if test="executingJobsId != null" >
+                executingJobsId = #{executingJobsId, jdbcType=INTEGER},
+            </if>
+            <if test="executorName != null" >
+                executorName = #{executorName, jdbcType=VARCHAR},
+            </if>
+            <if test="processId != null" >
+                processId = #{processId, jdbcType=INTEGER},
+            </if>
+            <if test="cancelStatus != null" >
+                cancelStatus = #{cancelStatus, jdbcType=INTEGER},
+            </if>
+            <if test="isDeleted != null" >
+                isDeleted = #{isDeleted, jdbcType=CHAR},
+            </if>
+            <if test="modifiedBy != null" >
+                modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            </if>
+            stampDate = now()
+        </set>
+        where executingCancelInfoId = #{executingCancelInfoId,jdbcType=INTEGER}
+    </update>
+    <update id="deleteExecutingCancelInfoById" parameterType="java.lang.Long" >
+        update ExecutingCancelInfo
+        <set>
+            isDeleted = '1'
+        </set>
+        where executingCancelInfoId = #{executingCancelInfoId,jdbcType=INTEGER}
+    </update>
+</mapper>

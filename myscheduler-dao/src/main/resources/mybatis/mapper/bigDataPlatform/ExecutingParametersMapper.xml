@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutingParametersMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutingParametersEntity">
+        <id column="executingParametersId" property="executingParametersId" jdbcType="INTEGER" />
+        <result column="executingJobsId" property="executingJobsId" jdbcType="INTEGER" />
+        <result column="parameterName" property="parameterName" jdbcType="VARCHAR" />
+        <result column="parameterExpression" property="parameterExpression" jdbcType="VARCHAR" />
+        <result column="parameterValue" property="parameterValue" jdbcType="VARCHAR" />
+        <result column="isDeleted" property="isDeleted" jdbcType="CHAR" />
+        <result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+        <result column="inputBy" property="inputBy" jdbcType="VARCHAR" />
+        <result column="stampDate" property="stampDate" jdbcType="TIMESTAMP" />
+        <result column="modifiedBy" property="modifiedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executingParametersId,executingJobsId,parameterName,parameterExpression,parameterValue,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+    </sql>
+    <select id="selectExecutingParametersById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingParameters 
+        where executingParametersId = #{executingParametersId,jdbcType=INTEGER} and isDeleted = '0'
+    </select>
+    <select id="selectExecutingParametersCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutingParameters 
+        where isDeleted='0'
+        <if test="executingParametersId != null ">
+        and executingParametersId=#{executingParametersId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="parameterName != null  and parameterName != ''">
+        and parameterName=#{parameterName,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterExpression != null  and parameterExpression != ''">
+            and parameterExpression=#{parameterExpression,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterValue != null  and parameterValue != ''">
+        and parameterValue=#{parameterValue,jdbcType=VARCHAR}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectExecutingParametersList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingParameters 
+        where isDeleted='0'
+        <if test="executingParametersId != null ">
+        and executingParametersId=#{executingParametersId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="parameterName != null  and parameterName != ''">
+        and parameterName=#{parameterName,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterExpression != null  and parameterExpression != ''">
+            and parameterExpression=#{parameterExpression,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterValue != null  and parameterValue != ''">
+        and parameterValue=#{parameterValue,jdbcType=VARCHAR}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+        ORDER BY executingParametersId
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="insertExecutingParameters" parameterType="org.my.myscheduler.dao.entity.ExecutingParametersEntity" useGeneratedKeys="true" keyProperty="executingParametersId">
+        insert into ExecutingParameters (executingJobsId,parameterName,parameterExpression,parameterValue,isDeleted,inputDate,inputBy,stampDate,modifiedBy) values(#{executingJobsId,jdbcType=INTEGER},#{parameterName,jdbcType=VARCHAR},#{parameterExpression,jdbcType=VARCHAR},#{parameterValue,jdbcType=VARCHAR},'0',now(),#{inputBy,jdbcType=VARCHAR},now(),#{modifiedBy,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateExecutingParameters" parameterType="org.my.myscheduler.dao.entity.ExecutingParametersEntity" >
+        update ExecutingParameters
+        <set>
+            <if test="executingJobsId != null" >
+                executingJobsId = #{executingJobsId, jdbcType=INTEGER},
+            </if>
+            <if test="parameterName != null" >
+                parameterName = #{parameterName, jdbcType=VARCHAR},
+            </if>
+            <if test="parameterExpression != null" >
+                parameterExpression = #{parameterExpression, jdbcType=VARCHAR},
+            </if>
+            <if test="parameterValue != null" >
+                parameterValue = #{parameterValue, jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null" >
+                isDeleted = #{isDeleted, jdbcType=CHAR},
+            </if>
+            <if test="modifiedBy != null" >
+                modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            </if>
+            stampDate = now()
+        </set>
+        where executingParametersId = #{executingParametersId,jdbcType=INTEGER}
+    </update>
+    <update id="deleteExecutingParametersById" parameterType="java.lang.Long" >
+        update ExecutingParameters
+        <set>
+            isDeleted = '1'
+        </set>
+        where executingParametersId = #{executingParametersId,jdbcType=INTEGER}
+    </update>
+    <insert id="initExecutingParameters">
+        INSERT INTO ExecutingParameters(executingJobsId, parameterExpression, parameterName, parameterValue, isDeleted, inputDate, inputBy, stampDate, modifiedBy)
+        SELECT
+                    ej.executingJobsId, jp.paramValue as parameterExpression,
+                    jp.paramName as parameterName,
+                    CASE WHEN p.parameterMappingsId is null THEN jp.paramValue ELSE
+                                    DATE_FORMAT( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD(
+                                                STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+                                    INTERVAL IFNULL(p.intervalMin, 0) MINUTE ), INTERVAL IFNULL(p.intervalHour, 0) HOUR ), INTERVAL IFNULL(p.intervalDay, 0) DAY ), INTERVAL IFNULL(p.intervalWeek, 0) WEEK ), INTERVAL IFNULL(p.intervalMonth, 0) MONTH ), INTERVAL IFNULL(p.intervalQuarter, 0) QUARTER ), INTERVAL IFNULL(p.intervalYear, 0) YEAR ),
+                          p.format ) END as parameterValue,
+              '0' as isDeleted,
+              now() as inputDate,
+              'admin' as inputBy,
+              now() as stampDate,
+              'admin' as modifiedBy
+        FROM JobsParameter jp INNER JOIN Jobs j on jp.jobId = j.jobId
+        INNER JOIN ExecutingJobs ej on j.jobName = ej.jobName
+        LEFT OUTER JOIN ParameterMappings p on jp.paramValue = p.parameterExpression and p.isDeleted = '0'
+        LEFT OUTER JOIN ExecutingParameters ep ON ep.executingJobsId = ej.executingJobsId AND ep.parameterName = jp.paramName AND ep.isDeleted = '0'
+        WHERE jp.isDeleted = '0' and j.isDeleted = '0' and ej.isDeleted = '0' AND ej.executingType = 0
+          AND ej.executingPeriod >= DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+          AND ep.executingParametersId IS NULL
+    </insert>
+    <insert id="initParametersByExecutingJobsId" parameterType="java.util.Map">
+        INSERT INTO ExecutingParameters(executingJobsId, parameterExpression, parameterName, parameterValue, isDeleted, inputDate, inputBy, stampDate, modifiedBy)
+        SELECT
+        ej.executingJobsId, jp.paramValue as parameterExpression,
+        jp.paramName as parameterName,
+        CASE WHEN p.parameterMappingsId is null THEN jp.paramValue ELSE
+        DATE_FORMAT( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD(
+        STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+        INTERVAL IFNULL(p.intervalMin, 0) MINUTE ), INTERVAL IFNULL(p.intervalHour, 0) HOUR ), INTERVAL IFNULL(p.intervalDay, 0) DAY ), INTERVAL IFNULL(p.intervalWeek, 0) WEEK ), INTERVAL IFNULL(p.intervalMonth, 0) MONTH ), INTERVAL IFNULL(p.intervalQuarter, 0) QUARTER ), INTERVAL IFNULL(p.intervalYear, 0) YEAR ),
+        p.format ) END as parameterValue,
+        '0' as isDeleted,
+        now() as inputDate,
+        #{inputBy, jdbcType=VARCHAR} as inputBy,
+        now() as stampDate,
+        #{modifiedBy, jdbcType=VARCHAR} as modifiedBy
+        FROM JobsParameter jp INNER JOIN Jobs j on jp.jobId = j.jobId
+        INNER JOIN ExecutingJobs ej on j.jobName = ej.jobName
+        LEFT OUTER JOIN ParameterMappings p on jp.paramValue = p.parameterExpression and p.isDeleted = '0'
+        LEFT OUTER JOIN ExecutingParameters ep ON ep.executingJobsId = ej.executingJobsId AND ep.parameterName = jp.paramName AND ep.isDeleted = '0'
+        WHERE jp.isDeleted = '0' and j.isDeleted = '0' and ej.isDeleted = '0'
+        AND ep.executingParametersId IS NULL
+        AND ej.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+    </insert>
+    <update id="updateParametersByExecutingJobsId" parameterType="java.util.Map">
+        UPDATE ExecutingParameters ep INNER JOIN ExecutingJobs ej ON ep.executingJobsId = ej.executingJobsId AND ej.isDeleted = '0'
+        INNER JOIN Jobs j ON j.jobName = ej.jobName AND j.isDeleted = '0'
+        INNER JOIN JobsParameter jp ON ep.parameterName = jp.paramName AND jp.isDeleted = '0'
+        LEFT OUTER JOIN ParameterMappings p on jp.paramValue = p.parameterExpression and p.isDeleted = '0'
+        <set>
+            ep.parameterExpression = jp.paramValue,
+            ep.parameterValue = CASE WHEN p.parameterMappingsId is null THEN jp.paramValue ELSE
+                DATE_FORMAT( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD( DATE_ADD(
+                STR_TO_DATE(ej.executingPeriod,'%Y%m%d%H%i'),
+                INTERVAL IFNULL(p.intervalMin, 0) MINUTE ), INTERVAL IFNULL(p.intervalHour, 0) HOUR ), INTERVAL IFNULL(p.intervalDay, 0) DAY ), INTERVAL IFNULL(p.intervalWeek, 0) WEEK ), INTERVAL IFNULL(p.intervalMonth, 0) MONTH ), INTERVAL IFNULL(p.intervalQuarter, 0) QUARTER ), INTERVAL IFNULL(p.intervalYear, 0) YEAR ),
+                p.format ) END,
+            ep.stampDate = now(),
+            ep.modifiedBy = #{modifiedBy, jdbcType=VARCHAR}
+        </set>
+        WHERE ep.executingJobsId = #{executingJobsId, jdbcType=INTEGER}
+        AND ep.isDeleted = '0' AND ep.parameterExpression != jp.paramValue
+    </update>
+    <update id="deleteParametersByExecutingJobsId" parameterType="java.util.Map">
+        UPDATE ExecutingParameters ep INNER JOIN ExecutingJobs ej ON ep.executingJobsId = ej.executingJobsId AND ej.isDeleted = '0'
+        INNER JOIN Jobs j ON j.jobName = ej.jobName AND j.isDeleted = '0'
+        LEFT OUTER JOIN JobsParameter jp ON ep.parameterName = jp.paramName AND jp.isDeleted = '0'
+        <set>
+            ep.isDeleted = '1',
+            ep.modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            ep.stampDate = now()
+        </set>
+        WHERE ep.executingJobsId = #{executingJobsId, jdbcType=INTEGER} AND jp.jobParamId IS NULL
+    </update>
+</mapper>

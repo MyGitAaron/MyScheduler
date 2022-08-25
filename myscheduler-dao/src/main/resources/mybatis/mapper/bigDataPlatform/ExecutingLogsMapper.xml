@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutingLogsMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutingLogsEntity">
+        <id column="executingLogsId" property="executingLogsId" jdbcType="INTEGER" />
+        <result column="executingJobsHisId" property="executingJobsHisId" jdbcType="INTEGER" />
+        <result column="executingJobsId" property="executingJobsId" jdbcType="INTEGER" />
+        <result column="executorName" property="executorName" jdbcType="VARCHAR" />
+        <result column="jobStatus" property="jobStatus" jdbcType="INTEGER" />
+        <result column="attempt" property="attempt" jdbcType="INTEGER" />
+        <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="log" property="log" jdbcType="LONGVARCHAR" />
+        <result column="isDeleted" property="isDeleted" jdbcType="CHAR" />
+        <result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+        <result column="inputBy" property="inputBy" jdbcType="VARCHAR" />
+        <result column="stampDate" property="stampDate" jdbcType="TIMESTAMP" />
+        <result column="modifiedBy" property="modifiedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executingLogsId,executingJobsHisId,executingJobsId,executorName,jobStatus,attempt,startTime,endTime,log,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+    </sql>
+    <select id="selectExecutingLogsById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingLogs 
+        where executingLogsId = #{executingLogsId,jdbcType=INTEGER} and isDeleted = '0'
+    </select>
+    <select id="selectExecutingLogsCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutingLogs 
+        where isDeleted='0'
+        <if test="executingJobsHisId != null ">
+        and executingJobsHisId=#{executingJobsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingLogsId != null ">
+        and executingLogsId=#{executingLogsId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="executorName != null  and executorName != ''">
+        and executorName=#{executorName,jdbcType=VARCHAR}
+        </if>
+        <if test="jobStatus != null">
+        and jobStatus=#{jobStatus,jdbcType=INTEGER}
+        </if>
+        <if test="attempt != null ">
+        and attempt=#{attempt,jdbcType=INTEGER}
+        </if>
+        <if test="startTime != null ">
+        and startTime=#{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null ">
+        and endTime=#{endTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="log != null  and log != ''">
+        and log=#{log,jdbcType=LONGVARCHAR}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectExecutingLogsList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingLogs 
+        where isDeleted='0'
+        <if test="executingJobsHisId != null ">
+        and executingJobsHisId=#{executingJobsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingLogsId != null ">
+        and executingLogsId=#{executingLogsId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="executorName != null  and executorName != ''">
+        and executorName=#{executorName,jdbcType=VARCHAR}
+        </if>
+        <if test="jobStatus != null">
+        and jobStatus=#{jobStatus,jdbcType=INTEGER}
+        </if>
+        <if test="attempt != null ">
+        and attempt=#{attempt,jdbcType=INTEGER}
+        </if>
+        <if test="startTime != null ">
+        and startTime=#{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null ">
+        and endTime=#{endTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="log != null  and log != ''">
+        and log=#{log,jdbcType=LONGVARCHAR}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+        ORDER BY executingLogsId DESC
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="insertExecutingLogs" parameterType="org.my.myscheduler.dao.entity.ExecutingLogsEntity" useGeneratedKeys="true" keyProperty="executingLogsId">
+        insert into ExecutingLogs (executingJobsHisId,executingJobsId,executorName,jobStatus,attempt,startTime,endTime,log,isDeleted,inputDate,inputBy,stampDate,modifiedBy) values(#{executingJobsHisId,jdbcType=INTEGER},#{executingJobsId,jdbcType=INTEGER},#{executorName,jdbcType=VARCHAR},#{jobStatus,jdbcType=INTEGER},#{attempt,jdbcType=INTEGER},#{startTime,jdbcType=TIMESTAMP},#{endTime,jdbcType=TIMESTAMP},#{log,jdbcType=LONGVARCHAR},'0',now(),#{inputBy,jdbcType=VARCHAR},now(),#{modifiedBy,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateExecutingLogs" parameterType="org.my.myscheduler.dao.entity.ExecutingLogsEntity" >
+        update ExecutingLogs
+        <set>
+            <if test="executingJobsHisId != null" >
+                executingJobsHisId = #{executingJobsHisId, jdbcType=INTEGER},
+            </if>
+            <if test="executingJobsId != null" >
+                executingJobsId = #{executingJobsId, jdbcType=INTEGER},
+            </if>
+            <if test="executorName != null" >
+                executorName = #{executorName, jdbcType=VARCHAR},
+            </if>
+            <if test="jobStatus != null" >
+                jobStatus = #{jobStatus, jdbcType=INTEGER},
+            </if>
+            <if test="attempt != null" >
+                attempt = #{attempt, jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null" >
+                startTime = #{startTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                endTime = #{endTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="log != null" >
+                log = #{log, jdbcType=LONGVARCHAR},
+            </if>
+            <if test="isDeleted != null" >
+                isDeleted = #{isDeleted, jdbcType=CHAR},
+            </if>
+            <if test="modifiedBy != null" >
+                modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            </if>
+            stampDate = now()
+        </set>
+        where executingLogsId = #{executingLogsId,jdbcType=INTEGER}
+    </update>
+    <update id="deleteExecutingLogsById" parameterType="java.lang.Long" >
+        update ExecutingLogs
+        <set>
+            isDeleted = '1'
+        </set>
+        where executingLogsId = #{executingLogsId,jdbcType=INTEGER}
+    </update>
+    <insert id="insertByJobsHisId" parameterType="org.my.myscheduler.dao.entity.ExecutingLogsEntity" useGeneratedKeys="true" keyProperty="executingLogsId">
+        insert into ExecutingLogs (executingJobsHisId,executingJobsId,executorName,jobStatus,attempt,startTime,endTime,log,isDeleted,inputDate,inputBy,stampDate,modifiedBy)
+        select executingJobsHisId, executingJobsId,executorName,jobStatus,attempt,startTime,endTime,#{log,jdbcType=LONGVARCHAR},'0',now(),inputBy,now(),modifiedBy from ExecutingJobsHis where executingJobsHisId = #{executingJobsHisId,jdbcType=INTEGER}
+    </insert>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.my.myscheduler.dao.mapper.bigDataPlatform.ExecutingParametersHisMapper">
+    <resultMap id="BaseResultMap" type="org.my.myscheduler.dao.entity.ExecutingParametersHisEntity">
+        <id column="executingParametersHisId" property="executingParametersHisId" jdbcType="INTEGER" />
+        <result column="executingJobsHisId" property="executingJobsHisId" jdbcType="INTEGER" />
+        <result column="executingParametersId" property="executingParametersId" jdbcType="INTEGER" />
+        <result column="executingJobsId" property="executingJobsId" jdbcType="INTEGER" />
+        <result column="parameterName" property="parameterName" jdbcType="VARCHAR" />
+        <result column="parameterExpression" property="parameterExpression" jdbcType="VARCHAR" />
+        <result column="parameterValue" property="parameterValue" jdbcType="VARCHAR" />
+        <result column="isDeleted" property="isDeleted" jdbcType="CHAR" />
+        <result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+        <result column="inputBy" property="inputBy" jdbcType="VARCHAR" />
+        <result column="stampDate" property="stampDate" jdbcType="TIMESTAMP" />
+        <result column="modifiedBy" property="modifiedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        executingParametersHisId,executingJobsHisId,executingParametersId,executingJobsId,parameterName,parameterExpression,parameterValue,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+    </sql>
+    <select id="selectExecutingParametersHisById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingParametersHis 
+        where executingParametersHisId = #{executingParametersHisId,jdbcType=INTEGER} and isDeleted = '0'
+    </select>
+    <select id="selectExecutingParametersHisCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ExecutingParametersHis 
+        where isDeleted='0'
+        <if test="executingParametersHisId != null ">
+        and executingParametersHisId=#{executingParametersHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsHisId != null ">
+        and executingJobsHisId=#{executingJobsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingParametersId != null ">
+        and executingParametersId=#{executingParametersId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="parameterName != null  and parameterName != ''">
+        and parameterName=#{parameterName,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterExpression != null  and parameterExpression != ''">
+            and parameterExpression=#{parameterExpression,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterValue != null  and parameterValue != ''">
+        and parameterValue=#{parameterValue,jdbcType=VARCHAR}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectExecutingParametersHisList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ExecutingParametersHis 
+        where isDeleted='0'
+        <if test="executingParametersHisId != null ">
+        and executingParametersHisId=#{executingParametersHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsHisId != null ">
+        and executingJobsHisId=#{executingJobsHisId,jdbcType=INTEGER}
+        </if>
+        <if test="executingParametersId != null ">
+        and executingParametersId=#{executingParametersId,jdbcType=INTEGER}
+        </if>
+        <if test="executingJobsId != null ">
+        and executingJobsId=#{executingJobsId,jdbcType=INTEGER}
+        </if>
+        <if test="parameterName != null  and parameterName != ''">
+        and parameterName=#{parameterName,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterExpression != null  and parameterExpression != ''">
+            and parameterExpression=#{parameterExpression,jdbcType=VARCHAR}
+        </if>
+        <if test="parameterValue != null  and parameterValue != ''">
+        and parameterValue=#{parameterValue,jdbcType=VARCHAR}
+        </if>
+        <if test="inputDate != null ">
+        and inputDate=#{inputDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputBy != null  and inputBy != ''">
+        and inputBy=#{inputBy,jdbcType=VARCHAR}
+        </if>
+        <if test="stampDate != null ">
+        and stampDate=#{stampDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedBy != null  and modifiedBy != ''">
+        and modifiedBy=#{modifiedBy,jdbcType=VARCHAR}
+        </if>
+        ORDER BY executingParametersHisId
+        <if test="firstRow != null and  rowSize!= null">
+        <![CDATA[limit #{firstRow},#{rowSize} ]]><!-- 分页处理 -->
+        </if>
+    </select>
+    <insert id="insertExecutingParametersHis" parameterType="org.my.myscheduler.dao.entity.ExecutingParametersHisEntity" useGeneratedKeys="true" keyProperty="executingParametersHisId">
+        insert into ExecutingParametersHis (executingJobsHisId,executingParametersId,executingJobsId,parameterName,parameterExpression,parameterValue,isDeleted,inputDate,inputBy,stampDate,modifiedBy) values(#{executingJobsHisId,jdbcType=INTEGER},#{executingParametersId,jdbcType=INTEGER},#{executingJobsId,jdbcType=INTEGER},#{parameterName,jdbcType=VARCHAR},#{parameterExpression,jdbcType=VARCHAR},#{parameterValue,jdbcType=VARCHAR},'0',now(),#{inputBy,jdbcType=VARCHAR},now(),#{modifiedBy,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateExecutingParametersHis" parameterType="org.my.myscheduler.dao.entity.ExecutingParametersHisEntity" >
+        update ExecutingParametersHis
+        <set>
+            <if test="executingJobsHisId != null" >
+                executingJobsHisId = #{executingJobsHisId, jdbcType=INTEGER},
+            </if>
+            <if test="executingParametersId != null" >
+                executingParametersId = #{executingParametersId, jdbcType=INTEGER},
+            </if>
+            <if test="executingJobsId != null" >
+                executingJobsId = #{executingJobsId, jdbcType=INTEGER},
+            </if>
+            <if test="parameterName != null" >
+                parameterName = #{parameterName, jdbcType=VARCHAR},
+            </if>
+            <if test="parameterExpression != null" >
+                parameterExpression = #{parameterExpression, jdbcType=VARCHAR},
+            </if>
+            <if test="parameterValue != null" >
+                parameterValue = #{parameterValue, jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null" >
+                isDeleted = #{isDeleted, jdbcType=CHAR},
+            </if>
+            <if test="modifiedBy != null" >
+                modifiedBy = #{modifiedBy, jdbcType=VARCHAR},
+            </if>
+            stampDate = now()
+        </set>
+        where executingParametersHisId = #{executingParametersHisId,jdbcType=INTEGER}
+    </update>
+    <update id="deleteExecutingParametersHisById" parameterType="java.lang.Long" >
+        update ExecutingParametersHis
+        <set>
+            isDeleted = '1'
+        </set>
+        where executingParametersHisId = #{executingParametersHisId,jdbcType=INTEGER}
+    </update>
+    <insert id="copyExecutingParametersToHis" parameterType="java.util.Map">
+        insert into ExecutingParametersHis (executingJobsHisId,executingParametersId,executingJobsId,parameterName,parameterExpression,parameterValue,isDeleted,inputDate,inputBy,stampDate,modifiedBy)
+        SELECT #{executingJobsHisId,jdbcType=INTEGER}, executingParametersId,executingJobsId,parameterName,parameterExpression,parameterValue,isDeleted,inputDate,inputBy,stampDate,modifiedBy
+        FROM ExecutingParameters WHERE executingJobsId = #{executingJobsId,jdbcType=INTEGER} and isDeleted = '0'
+    </insert>
+</mapper>
