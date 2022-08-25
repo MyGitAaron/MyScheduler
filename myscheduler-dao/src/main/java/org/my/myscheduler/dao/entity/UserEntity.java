@@ -4,7 +4,7 @@ package org.my.myscheduler.dao.entity;
 import java.io.Serializable;
 
 /**
- * @Author: ice
+ * @Author:
  * @Desc:
  * @Date: Created in 上午10:00 2018/4/16
  * @Modified by
